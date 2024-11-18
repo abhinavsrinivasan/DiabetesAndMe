@@ -55,9 +55,9 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _pages = [
-      Center(child: Text("Home View Placeholder")), // Replace with actual HomeView
-      Center(child: Text("Search View Placeholder")), // Replace with SearchView
-      ProfileView(presenter: widget.presenter), // Profile page
+      Center(child: Text("social media")), 
+      Center(child: Text("home")), 
+      ProfileView(presenter: widget.presenter), 
     ];
   }
 
