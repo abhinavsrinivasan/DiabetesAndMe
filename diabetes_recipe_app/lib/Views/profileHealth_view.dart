@@ -13,123 +13,124 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  int _selectedIndex = 0; // Default to Health Information tab
-  bool isEditing = false; // Toggles edit mode
+  int varIndex = 0; // Default to Health Info tab
+  bool editMode = false; // Toggles edit mode
   final Map<String, TextEditingController> controllers = {};
 
   @override
   void initState() {
     super.initState();
-    // Initialize controllers for editing Health Information
     widget.presenter.displayHealthStats().forEach((key, value) {
       controllers[key] = TextEditingController(text: value);
     });
   }
 
   @override
-  void dispose() {
-    // Dispose controllers to free memory
-    controllers.values.forEach((controller) => controller.dispose());
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final views = [
+      _buildHealthInfoView(),
+      FavoritesView(presenter: widget.presenter),
+      RemindersView(presenter: widget.presenter),
+    ];
+
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Column(
+          children: [
+            CircleAvatar(
+              radius: 40,
+              backgroundImage: widget.presenter.userModel.profilePicture,
+            ),
+            SizedBox(height: 8),
+            Text(widget.presenter.userModel.name),
+          ],
+        ),
+        centerTitle: true,
+        toolbarHeight: 150,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Column(
         children: [
-          _buildTabBar(),
-          Expanded(child: _buildCurrentView()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () => setState(() => varIndex = 0),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: varIndex == 0 ? Colors.blue : Colors.grey,
+                ),
+                child: Text('Health Info'),
+              ),
+              ElevatedButton(
+                onPressed: () => setState(() => varIndex = 1),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: varIndex == 1 ? Colors.blue : Colors.grey,
+                ),
+                child: Text('Favorites'),
+              ),
+              ElevatedButton(
+                onPressed: () => setState(() => varIndex = 2),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: varIndex == 2 ? Colors.blue : Colors.grey,
+                ),
+                child: Text('Reminders'),
+              ),
+            ],
+          ),
+          Expanded(child: views[varIndex]),
         ],
       ),
     );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      title: Column(
-        children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundImage: widget.presenter.userModel.profilePicture,
-          ),
-          SizedBox(height: 8),
-          Text(widget.presenter.userModel.name),
-        ],
-      ),
-      centerTitle: true,
-      toolbarHeight: 150,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-    );
-  }
-
-  Widget _buildTabBar() {
-    const tabs = ['Health Info', 'Favorites', 'Reminders'];
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(tabs.length, (index) {
-        return ElevatedButton(
-          onPressed: () => setState(() => _selectedIndex = index),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: _selectedIndex == index ? Colors.blue : Colors.grey,
-          ),
-          child: Text(tabs[index]),
-        );
-      }),
-    );
-  }
-
-  Widget _buildCurrentView() {
-    switch (_selectedIndex) {
-      case 0:
-        return _buildHealthInfoView();
-      case 1:
-        return FavoritesView(presenter: widget.presenter);
-      case 2:
-        return RemindersView(presenter: widget.presenter);
-      default:
-        return _buildHealthInfoView();
-    }
   }
 
   Widget _buildHealthInfoView() {
-    final healthStats = widget.presenter.displayHealthStats();
+    final healthStatistics = widget.presenter.displayHealthStats();
+    final List<Widget> healthStatWidgets = [];
+
+    // Manually add each health stat widget to the list
+    healthStatistics.entries.forEach((entry) {
+      healthStatWidgets.add(
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: editMode
+              ? TextField(
+                  controller: controllers[entry.key],
+                  decoration: InputDecoration(labelText: entry.key),
+                )
+              : Text(
+                  "${entry.key}: ${entry.value}",
+                  style: TextStyle(fontSize: 16),
+                ),
+        ),
+      );
+    });
+
+    // Add the edit/save button
+    healthStatWidgets.add(SizedBox(height: 16));
+    healthStatWidgets.add(
+      ElevatedButton(
+        onPressed: () {
+          setState(() {
+            if (editMode) {
+              // Save the updated values to the presenter
+              controllers.forEach((key, controller) {
+                widget.presenter.editHealthStats(key, controller.text);
+              });
+            }
+            editMode = !editMode; // Toggle edit mode
+          });
+        },
+        child: Text(editMode ? "Save" : "Edit"),
+      ),
+    );
+
+    // Return the full column with all widgets
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
-        children: [
-          ...healthStats.entries.map((entry) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: isEditing
-                  ? TextField(
-                      controller: controllers[entry.key],
-                      decoration: InputDecoration(labelText: entry.key),
-                    )
-                  : Text(
-                      "${entry.key}: ${entry.value}",
-                      style: TextStyle(fontSize: 16),
-                    ),
-            );
-          }).toList(),
-          SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                if (isEditing) {
-                  controllers.forEach((key, controller) {
-                    widget.presenter.editHealthStats(key, controller.text);
-                  });
-                }
-                isEditing = !isEditing;
-              });
-            },
-            child: Text(isEditing ? "Save" : "Edit"),
-          ),
-        ],
+        children: healthStatWidgets,
       ),
     );
   }
