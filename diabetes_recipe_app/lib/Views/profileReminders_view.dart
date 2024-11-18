@@ -1,5 +1,3 @@
-// reminders_view.dart
-
 import 'package:flutter/material.dart';
 import '../presenters/profile_presenter.dart';
 
@@ -14,48 +12,54 @@ class RemindersView extends StatefulWidget {
 
 class _RemindersViewState extends State<RemindersView> {
   @override
-  @override
-Widget build(BuildContext context) {
-  final reminders = widget.presenter.displayReminders();
+  Widget build(BuildContext context) {
+    // Get reminders (remaining meals and exercises)
+    final reminders = widget.presenter.displayReminders();
 
-  return Padding(
-    padding: const EdgeInsets.all(16.0),
-    child: Column(
-      children: [
-        _buildReminderRow(
-          "Remaining Meals",
-          reminders['remainingMeals']!,
-          widget.presenter.decrementMeals,
-        ),
-        SizedBox(height: 16),
-        _buildReminderRow(
-          "Remaining Exercises",
-          reminders['remainingExercises']!,
-          widget.presenter.decrementExercises,
-        ),
-      ],
-    ),
-  );
-}
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          // Remaining Meals
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Remaining Meals: ${reminders['remainingMeals']}",
+                style: TextStyle(fontSize: 16),
+              ),
+              IconButton(
+                icon: Icon(Icons.remove),
+                onPressed: () {
+                  setState(() {
+                    widget.presenter.decrementMeals();
+                  });
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
 
-
-  Widget _buildReminderRow(String label, int value, VoidCallback onDecrement) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "$label: $value",
-          style: TextStyle(fontSize: 16),
-        ),
-        IconButton(
-          icon: Icon(Icons.remove),
-          onPressed: () {
-            setState(() {
-              onDecrement();
-            });
-          },
-        ),
-      ],
+          // Remaining Exercises
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Remaining Exercises: ${reminders['remainingExercises']}",
+                style: TextStyle(fontSize: 16),
+              ),
+              IconButton(
+                icon: Icon(Icons.remove),
+                onPressed: () {
+                  setState(() {
+                    widget.presenter.decrementExercises();
+                  });
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

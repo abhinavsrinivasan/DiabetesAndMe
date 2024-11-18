@@ -1,5 +1,3 @@
-// user_model.dart
-
 import 'package:flutter/material.dart';
 
 class UserModel {
@@ -10,13 +8,11 @@ class UserModel {
   Map<String, String> healthInformation;
   List<String> favoriteRecipes;
 
-  // Reminder properties
   int dailyMealsGoal;
   int dailyExercisesGoal;
   int remainingMeals;
   int remainingExercises;
 
-  // Constructor
   UserModel({
     required this.name,
     required this.age,

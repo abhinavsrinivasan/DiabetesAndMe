@@ -27,82 +27,95 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final views = [
-      _buildHealthInfoView(),
-      FavoritesView(presenter: widget.presenter),
-      RemindersView(presenter: widget.presenter),
-    ];
+  void dispose() {
+    // Dispose controllers to free memory
+    controllers.values.forEach((controller) => controller.dispose());
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Column(
-          children: [
-            CircleAvatar(
-              radius: 40,
-              backgroundImage: widget.presenter.userModel.profilePicture,
-            ),
-            SizedBox(height: 8),
-            Text(widget.presenter.userModel.name),
-          ],
-        ),
-        centerTitle: true,
-        toolbarHeight: 150,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
+      appBar: _buildAppBar(),
       body: Column(
         children: [
           _buildTabBar(),
-          Expanded(child: views[_selectedIndex]),
+          Expanded(child: _buildCurrentView()),
         ],
       ),
     );
   }
 
-  Widget _buildTabBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _buildTabButton('Health Info', 0),
-        _buildTabButton('Favorites', 1),
-        _buildTabButton('Reminders', 2),
-      ],
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      title: Column(
+        children: [
+          CircleAvatar(
+            radius: 40,
+            backgroundImage: widget.presenter.userModel.profilePicture,
+          ),
+          SizedBox(height: 8),
+          Text(widget.presenter.userModel.name),
+        ],
+      ),
+      centerTitle: true,
+      toolbarHeight: 150,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
     );
   }
 
-  Widget _buildTabButton(String title, int index) {
-    return ElevatedButton(
-      onPressed: () => setState(() => _selectedIndex = index),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: _selectedIndex == index ? Colors.blue : Colors.grey,
-      ),
-      child: Text(title),
+  Widget _buildTabBar() {
+    const tabs = ['Health Info', 'Favorites', 'Reminders'];
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(tabs.length, (index) {
+        return ElevatedButton(
+          onPressed: () => setState(() => _selectedIndex = index),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: _selectedIndex == index ? Colors.blue : Colors.grey,
+          ),
+          child: Text(tabs[index]),
+        );
+      }),
     );
+  }
+
+  Widget _buildCurrentView() {
+    switch (_selectedIndex) {
+      case 0:
+        return _buildHealthInfoView();
+      case 1:
+        return FavoritesView(presenter: widget.presenter);
+      case 2:
+        return RemindersView(presenter: widget.presenter);
+      default:
+        return _buildHealthInfoView();
+    }
   }
 
   Widget _buildHealthInfoView() {
     final healthStats = widget.presenter.displayHealthStats();
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          ...healthStats.keys.map((key) {
+          ...healthStats.entries.map((entry) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: isEditing
                   ? TextField(
-                      controller: controllers[key],
-                      decoration: InputDecoration(labelText: key),
+                      controller: controllers[entry.key],
+                      decoration: InputDecoration(labelText: entry.key),
                     )
                   : Text(
-                      "$key: ${healthStats[key]}",
+                      "${entry.key}: ${entry.value}",
                       style: TextStyle(fontSize: 16),
                     ),
             );
           }).toList(),
+          SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
               setState(() {

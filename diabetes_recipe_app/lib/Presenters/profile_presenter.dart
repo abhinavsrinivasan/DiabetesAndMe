@@ -1,5 +1,3 @@
-// profile_view_presenter.dart
-
 import '../models/user_model.dart';
 
 class ProfilePresenter {
@@ -10,10 +8,6 @@ class ProfilePresenter {
   // Methods for profileHealth_view
   Map<String, String> displayHealthStats() {
     return userModel.healthInformation;
-  }
-
-  void updateExerciseProgress(int exerciseCount) {
-    userModel.healthInformation['Exercise Progress'] = '$exerciseCount sessions';
   }
 
   void editHealthStats(String key, String value) {
@@ -44,14 +38,14 @@ class ProfilePresenter {
   // Decrement remaining meals
   void decrementMeals() {
     if (userModel.remainingMeals > 0) {
-      userModel.remainingMeals -= 1;
+      userModel.remainingMeals--;
     }
   }
 
   // Decrement remaining exercises
   void decrementExercises() {
     if (userModel.remainingExercises > 0) {
-      userModel.remainingExercises -= 1;
+      userModel.remainingExercises--;
     }
   }
 }
