@@ -1,25 +1,32 @@
+// user_model.dart
+
+import 'package:flutter/material.dart';
+
 class UserModel {
-  String? name;
-  String? profilePicture;
-  Map<String, String>? healthInformation; 
-  List<String>? favoriteRecipes; 
-  Map<String, String>? reminders; 
+  String name;
+  int age;
+  String bio;
+  ImageProvider profilePicture;
+  Map<String, String> healthInformation;
+  List<String> favoriteRecipes;
 
+  // Reminder properties
+  int dailyMealsGoal;
+  int dailyExercisesGoal;
+  int remainingMeals;
+  int remainingExercises;
 
+  // Constructor
   UserModel({
-    this.name,
-    this.profilePicture,
-    this.healthInformation,
-    this.favoriteRecipes,
-    this.reminders,
+    required this.name,
+    required this.age,
+    required this.bio,
+    required this.profilePicture,
+    required this.healthInformation,
+    required this.favoriteRecipes,
+    this.dailyMealsGoal = 0,
+    this.dailyExercisesGoal = 0,
+    this.remainingMeals = 0,
+    this.remainingExercises = 0,
   });
-
-
-  UserModel.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    profilePicture = json['profilePicture'];
-    healthInformation = Map<String, String>.from(json['healthInformation'] ?? {});
-    favoriteRecipes = List<String>.from(json['favoriteRecipes'] ?? []);
-    reminders = Map<String, String>.from(json['reminders'] ?? {});
-  } 
 }
