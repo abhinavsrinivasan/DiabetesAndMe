@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'models/user_model.dart';
-import 'models/recipe_model.dart'; // Consistent lowercase import
+import 'models/recipe_model.dart';
 import 'presenters/profile_presenter.dart';
-import 'presenters/filter_presenter.dart'; // Consistent lowercase import
+import 'presenters/filter_presenter.dart';
+import 'views/homescreenRecipes_view.dart'; // Import the new view
 import 'views/profileHealth_view.dart';
-import 'views/home_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -65,6 +65,42 @@ class MyApp extends StatelessWidget {
         "Step 3: Sprinkle with salt."
       ],
     ),
+    Recipe(
+      title: "Vegetable Stir Fry",
+      cuisine: "Asian",
+      cookTime: 20,
+      macros: {"carbs": 15, "sugar": 3},
+      ingredients: ["Broccoli", "Carrots", "Soy Sauce", "Garlic"],
+      preparationSteps: [
+        "Step 1: Heat oil in a pan.",
+        "Step 2: Add vegetables and stir-fry for 5 minutes.",
+        "Step 3: Add soy sauce and cook for another 5 minutes."
+      ],
+    ),
+    Recipe(
+      title: "Berry Smoothie",
+      cuisine: "American",
+      cookTime: 5,
+      macros: {"carbs": 18, "sugar": 12},
+      ingredients: ["Berries", "Yogurt", "Honey"],
+      preparationSteps: [
+        "Step 1: Combine all ingredients in a blender.",
+        "Step 2: Blend until smooth.",
+        "Step 3: Serve chilled."
+      ],
+    ),
+    Recipe(
+      title: "Grilled Salmon",
+      cuisine: "Mediterranean",
+      cookTime: 30,
+      macros: {"carbs": 5, "sugar": 1},
+      ingredients: ["Salmon", "Olive Oil", "Garlic", "Lemon"],
+      preparationSteps: [
+        "Step 1: Marinate salmon with olive oil, garlic, and lemon.",
+        "Step 2: Preheat grill to medium heat.",
+        "Step 3: Grill salmon for 10-15 minutes per side."
+      ],
+    ),
   ];
 
   @override
@@ -99,7 +135,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     _pages = [
       Center(child: Text("Social Media")), // Placeholder for Social Media page
-      HomeView(presenter: widget.filterPresenter), // Pass FilterPresenter to HomeView
+      HomeScreenRecipesView(presenter: widget.filterPresenter), // Updated to new HomeScreenRecipesView
       ProfileView(presenter: widget.profilePresenter), // Pass ProfilePresenter to ProfileView
     ];
   }
