@@ -1,17 +1,17 @@
 class Recipe {
-  String title;
-  List<String> ingredients;
-  String preparationSteps;
-  Map<String, int> macros; // Example: {'carbs': 50, 'sugar': 10, 'calories': 200}
-  String cuisine;
-  int cookTime;
+  final String title;
+  final String cuisine;
+  final int cookTime;
+  final Map<String, int> macros;
+  final List<String> ingredients;
+  final List<String> preparationSteps; // Correctly define as List<String>
 
   Recipe({
     required this.title,
-    required this.ingredients,
-    required this.preparationSteps,
-    required this.macros,
     required this.cuisine,
     required this.cookTime,
+    required this.macros,
+    required this.ingredients,
+    required this.preparationSteps, // Match the parameter type
   });
 }
