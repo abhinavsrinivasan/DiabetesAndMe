@@ -107,26 +107,23 @@ class _ProfileViewState extends State<ProfileView> {
       );
     });
 
-    // Add the edit/save button
     healthStatWidgets.add(SizedBox(height: 16));
     healthStatWidgets.add(
       ElevatedButton(
         onPressed: () {
           setState(() {
             if (editMode) {
-              // Save the updated values to the presenter
               controllers.forEach((key, controller) {
                 widget.presenter.editHealthStats(key, controller.text);
               });
             }
-            editMode = !editMode; // Toggle edit mode
+            editMode = !editMode;
           });
         },
         child: Text(editMode ? "Save" : "Edit"),
       ),
     );
 
-    // Return the full column with all widgets
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(

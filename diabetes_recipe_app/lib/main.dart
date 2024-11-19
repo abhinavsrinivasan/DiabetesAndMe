@@ -3,8 +3,9 @@ import 'models/user_model.dart';
 import 'models/recipe_model.dart';
 import 'presenters/profile_presenter.dart';
 import 'presenters/filter_presenter.dart';
-import 'views/homescreenRecipes_view.dart'; // Import the new view
+import 'views/homescreenRecipes_view.dart';
 import 'views/profileHealth_view.dart';
+import 'views/filter_view.dart'; 
 
 void main() {
   runApp(MyApp());
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
       "Step 2: Add feta and tomatoes.",
       "Step 3: Bake for 20 minutes."
     ],
-    imagePath: "assets/images/feta_pasta.jpg", // Add image path
+    imagePath: "assets/images/feta_pasta.jpg", 
   ),
   Recipe(
     title: "Chicken Salad",
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
       "Step 2: Toss lettuce with dressing.",
       "Step 3: Combine chicken with lettuce."
     ],
-    imagePath: "assets/images/chicken_salad.jpg", // Add image path
+    imagePath: "assets/images/chicken_salad.jpg", 
   ),
   Recipe(
     title: "Avocado Toast",
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
       "Step 2: Mash avocado and spread on bread.",
       "Step 3: Sprinkle with salt."
     ],
-    imagePath: "assets/images/avocado_toast.jpg", // Add image path
+    imagePath: "assets/images/avocado_toast.jpg",
   ),
   Recipe(
     title: "Vegetable Stir Fry",
@@ -79,7 +80,7 @@ class MyApp extends StatelessWidget {
       "Step 2: Add vegetables and stir-fry for 5 minutes.",
       "Step 3: Add soy sauce and cook for another 5 minutes."
     ],
-    imagePath: "assets/images/vegetable_stir_fry.jpg", // Add image path
+    imagePath: "assets/images/vegetable_stir_fry.jpg", 
   ),
   Recipe(
     title: "Berry Smoothie",
@@ -92,7 +93,7 @@ class MyApp extends StatelessWidget {
       "Step 2: Blend until smooth.",
       "Step 3: Serve chilled."
     ],
-    imagePath: "assets/images/berry_smoothie.jpg", // Add image path
+    imagePath: "assets/images/berry_smoothie.jpg", 
   ),
   Recipe(
     title: "Grilled Salmon",
@@ -105,19 +106,21 @@ class MyApp extends StatelessWidget {
       "Step 2: Preheat grill to medium heat.",
       "Step 3: Grill salmon for 10-15 minutes per side."
     ],
-    imagePath: "assets/images/grilled_salmon.jpg", // Add image path
+    imagePath: "assets/images/grilled_salmon.jpg",
   ),
 ];
-
 
   @override
   Widget build(BuildContext context) {
     final profilePresenter = ProfilePresenter(userModel);
-    final filterPresenter = FilterPresenter(recipeList); // Pass the recipe list
+    final filterPresenter = FilterPresenter(recipeList);
 
     return MaterialApp(
       title: 'Diabetes Recipe App',
-      home: MainPage(profilePresenter: profilePresenter, filterPresenter: filterPresenter),
+      home: MainPage(
+        profilePresenter: profilePresenter,
+        filterPresenter: filterPresenter,
+      ),
     );
   }
 }
@@ -141,9 +144,19 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _pages = [
-      Center(child: Text("Social Media")), // Placeholder for Social Media page
-      HomeScreenRecipesView(presenter: widget.filterPresenter), // Updated to new HomeScreenRecipesView
-      ProfileView(presenter: widget.profilePresenter), // Pass ProfilePresenter to ProfileView
+      Center(child: Text("Social Media")),
+      HomeScreenRecipesView(
+  presenter: widget.filterPresenter,
+  onFilterPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FilterView(presenter: widget.filterPresenter),
+      ),
+    );
+  },
+),
+      ProfileView(presenter: widget.profilePresenter),
     ];
   }
 
@@ -156,7 +169,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex], // Display the selected page
+      body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         items: [
