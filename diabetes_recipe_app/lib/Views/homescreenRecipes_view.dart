@@ -24,11 +24,15 @@ class HomeScreenRecipesView extends StatelessWidget {
           return Card(
             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             child: ListTile(
-              leading: Icon(Icons.restaurant_menu, size: 40), // Placeholder for an image
+              leading: Image.asset(
+                recipe.imagePath,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
               title: Text(recipe.title, style: TextStyle(fontWeight: FontWeight.bold)),
               subtitle: Text("Cuisine: ${recipe.cuisine}\nCook Time: ${recipe.cookTime} mins"),
               onTap: () {
-                // Navigate to a detailed recipe page (optional placeholder)
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -44,7 +48,7 @@ class HomeScreenRecipesView extends StatelessWidget {
   }
 }
 
-// A simple placeholder for the detailed recipe view
+// Updated RecipeDetailsView without the image
 class RecipeDetailsView extends StatelessWidget {
   final Recipe recipe;
 
