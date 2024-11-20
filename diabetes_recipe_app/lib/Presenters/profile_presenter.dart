@@ -1,25 +1,26 @@
+//
+
 import '../models/user_model.dart';
+import '../models/recipe_model.dart';
 
 class ProfilePresenter {
   final UserModel userModel;
 
   ProfilePresenter(this.userModel);
 
-  // Methods for profileHealth_view
-  Map<String, String> displayHealthStats() {
+  Map<String, String> showHealthData() {
     return userModel.healthInformation;
   }
 
-  void editHealthStats(String key, String value) {
+  void editHealthData(String key, String value) {
     userModel.healthInformation[key] = value;
   }
 
-  // Method for profileFavorites_view
-  List<String> displayFavoriteRecipes() {
-    return userModel.favoriteRecipes;
-  }
+  //filter by when "favOrNah == true"
+  List<Recipe> showFavoriteRecipies() {
+  return userModel.favoriteRecipes.where((recipe) => recipe.favOrNah).toList();
+} 
 
-  // Retrieve remaining meals and exercises
   Map<String, int> displayReminders() {
     return {
       'remainingMeals': userModel.remainingMeals,
@@ -27,22 +28,22 @@ class ProfilePresenter {
     };
   }
 
-  // Set daily goals for meals and exercises
-  void setDailyGoals(int meals, int exercises) {
+  //ensure meals is same for dailyMealsgoal and remainingMeals to begin with and exercises for other
+  void setGoals(int meals, int exercises) {
     userModel.dailyMealsGoal = meals;
     userModel.dailyExercisesGoal = exercises;
     userModel.remainingMeals = meals;
     userModel.remainingExercises = exercises;
   }
 
-  // Decrement remaining meals
+  //meal decrement
   void decrementMeals() {
     if (userModel.remainingMeals > 0) {
       userModel.remainingMeals--;
     }
   }
 
-  // Decrement remaining exercises
+  //exercise decrement
   void decrementExercises() {
     if (userModel.remainingExercises > 0) {
       userModel.remainingExercises--;

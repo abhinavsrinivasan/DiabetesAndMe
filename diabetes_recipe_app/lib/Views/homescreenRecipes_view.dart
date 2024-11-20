@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import '../models/recipe_model.dart';
 import '../presenters/filter_presenter.dart';
-import 'filter_view.dart';
+import '../presenters/profile_presenter.dart';
+import 'recipe_details_view.dart';
 
-class HomeScreenRecipesView extends StatelessWidget {
+class HomeScreenRecipesView extends StatefulWidget {
   final FilterPresenter presenter;
+  final ProfilePresenter profilePresenter; 
   final VoidCallback onFilterPressed;
 
-  HomeScreenRecipesView({required this.presenter, required this.onFilterPressed});
+  HomeScreenRecipesView({
+    required this.presenter,
+    required this.profilePresenter,
+    required this.onFilterPressed,
+  });
 
   @override
+  _HomeScreenRecipesViewState createState() => _HomeScreenRecipesViewState();
+}
+
+class _HomeScreenRecipesViewState extends State<HomeScreenRecipesView> {
+  @override
   Widget build(BuildContext context) {
-    final recipes = presenter.getFilteredRecipes().take(6).toList(); // Get filtered recipes
+    final recipes = widget.presenter.getFilteredRecipes().take(6).toList(); 
 
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +31,7 @@ class HomeScreenRecipesView extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.filter_alt),
-            onPressed: onFilterPressed, // Navigate to filter screen
+            onPressed: widget.onFilterPressed,
           ),
         ],
       ),
@@ -42,6 +53,24 @@ class HomeScreenRecipesView extends StatelessWidget {
         ),
         title: Text(recipe.title, style: TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text("Cuisine: ${recipe.cuisine}\nCook Time: ${recipe.cookTime} mins"),
+        trailing: IconButton(
+
+          //heart
+          icon: Icon(
+            recipe.favOrNah ? Icons.favorite : Icons.favorite_border,
+            color: recipe.favOrNah ? Colors.red : null,
+          ),
+          onPressed: () {
+            setState(() {
+              recipe.favOrNah = !recipe.favOrNah;//opposite of what it was
+              if (recipe.favOrNah) {
+                widget.profilePresenter.userModel.favoriteRecipes.add(recipe);
+              } else {
+                widget.profilePresenter.userModel.favoriteRecipes.remove(recipe);
+              }
+            });
+          },
+        ),
         onTap: () {
           Navigator.push(
             context,
@@ -51,47 +80,6 @@ class HomeScreenRecipesView extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class RecipeDetailsView extends StatelessWidget {
-  final Recipe recipe;
-
-  RecipeDetailsView({required this.recipe});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(recipe.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(recipe.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            SizedBox(height: 8),
-            Text("Cuisine: ${recipe.cuisine}", style: TextStyle(fontSize: 16)),
-            SizedBox(height: 8),
-            Text("Cook Time: ${recipe.cookTime} mins", style: TextStyle(fontSize: 16)),
-            SizedBox(height: 16),
-            _buildSectionTitle("Ingredients"),
-            ...recipe.ingredients.map((ingredient) => Text("- $ingredient", style: TextStyle(fontSize: 16))),
-            SizedBox(height: 16),
-            _buildSectionTitle("Preparation Steps"),
-            ...recipe.preparationSteps.map((step) => Text("- $step", style: TextStyle(fontSize: 16))),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 }

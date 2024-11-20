@@ -1,3 +1,7 @@
+//
+
+
+//child
 import 'package:flutter/material.dart';
 import '../presenters/profile_presenter.dart';
 
@@ -13,14 +17,17 @@ class RemindersView extends StatefulWidget {
 class _RemindersViewState extends State<RemindersView> {
   @override
   Widget build(BuildContext context) {
-    // Get reminders (remaining meals and exercises)
+    
+    //
     final reminders = widget.presenter.displayReminders();
 
+    //padding along edge
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          // Remaining Meals
+
+          //remaining meals
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -40,7 +47,7 @@ class _RemindersViewState extends State<RemindersView> {
           ),
           SizedBox(height: 16),
 
-          // Remaining Exercises
+          //exercise decrement
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

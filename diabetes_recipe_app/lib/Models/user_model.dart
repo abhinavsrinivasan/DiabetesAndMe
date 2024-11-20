@@ -1,4 +1,7 @@
+//
+
 import 'package:flutter/material.dart';
+import '../models/recipe_model.dart';
 
 class UserModel {
   String name;
@@ -6,7 +9,7 @@ class UserModel {
   String bio;
   ImageProvider profilePicture;
   Map<String, String> healthInformation;
-  List<String> favoriteRecipes;
+  List<Recipe> favoriteRecipes = [];
 
   int dailyMealsGoal;
   int dailyExercisesGoal;
