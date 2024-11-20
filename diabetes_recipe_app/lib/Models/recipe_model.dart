@@ -1,3 +1,5 @@
+//
+
 class Recipe {
   final String title;
   final String cuisine;
@@ -6,6 +8,7 @@ class Recipe {
   final List<String> ingredients;
   final List<String> preparationSteps;
   final String imagePath;
+  bool favOrNah;
 
   Recipe({
     required this.title,
@@ -15,5 +18,6 @@ class Recipe {
     required this.ingredients,
     required this.preparationSteps,
     required this.imagePath,
+    this.favOrNah = false, //for the favorite functionality(setting default to false)
   });
 }
