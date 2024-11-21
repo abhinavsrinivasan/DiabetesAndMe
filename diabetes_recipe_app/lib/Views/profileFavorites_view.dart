@@ -12,8 +12,10 @@ class FavoritesView extends StatelessWidget {
   Widget build(BuildContext context) {
     final favoriteRecipes = presenter.userModel.favoriteRecipes;
 
+
+    //favorites page format
     return favoriteRecipes.isEmpty
-        ? Center(child: Text("No favorites yet!"))
+        ? Center(child: Text("No favorites yet"))
         : ListView(
             children: favoriteRecipes.map((recipe) {
               return Column(

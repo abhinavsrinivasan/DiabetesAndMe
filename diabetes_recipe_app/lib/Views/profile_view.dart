@@ -1,3 +1,5 @@
+//
+
 //parent view - manages navigation and layout
 
 import 'package:flutter/material.dart';
@@ -12,11 +14,11 @@ class ProfileView extends StatefulWidget {
   ProfileView({required this.presenter});
 
   @override
-  _ProfileViewState createState() => _ProfileViewState();
+  ProfileViewState createState() => ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
-  int varIndex = 0;
+class ProfileViewState extends State<ProfileView> {
+  int tabIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _ProfileViewState extends State<ProfileView> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false, //defaukt setting
         title: Column(
           children: [
             CircleAvatar(
@@ -53,19 +55,19 @@ class _ProfileViewState extends State<ProfileView> {
               return ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    varIndex = index;
+                    tabIndex = index;
                   });
                 },
                 child: Text(
                   titles[index],
                   style: TextStyle(
-                    fontWeight: varIndex == index ? FontWeight.bold : FontWeight.normal,
+                    fontWeight: tabIndex == index ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
               );
             }),
           ),
-          Expanded(child: views[varIndex]),
+          Expanded(child: views[tabIndex]),
         ],
       ),
     );

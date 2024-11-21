@@ -7,10 +7,10 @@ class FilterView extends StatefulWidget {
   FilterView({required this.presenter});
 
   @override
-  _FilterViewState createState() => _FilterViewState();
+  FilterViewState createState() => FilterViewState();
 }
 
-class _FilterViewState extends State<FilterView> {
+class FilterViewState extends State<FilterView> {
   Set<String> selectedFilters = {}; 
 
   @override

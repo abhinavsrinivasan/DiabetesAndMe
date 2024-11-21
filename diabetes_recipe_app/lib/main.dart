@@ -155,7 +155,7 @@ class _MainPageState extends State<MainPage> {
       HomeScreenRecipesView(
         presenter: widget.filterPresenter,
         profilePresenter: widget.profilePresenter,
-        onFilterPressed: () {
+        pressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(
