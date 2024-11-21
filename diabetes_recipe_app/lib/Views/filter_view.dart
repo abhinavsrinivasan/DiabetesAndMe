@@ -26,21 +26,21 @@ class FilterViewState extends State<FilterView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle("Cook Time"),
-            _buildFilterButtons(["Low (30 min or less)", "Medium (1 hour or less)", "High (More than 1 hour)"]),
-            _buildSectionTitle("Carbohydrates Range"),
-            _buildFilterButtons(["Low (10 grams or less)", "Medium (20 grams or less)", "High (30 grams or less) **Warning"]),
-            _buildSectionTitle("Sugar Range"),
-            _buildFilterButtons(["Low (5 grams or less)", "Low (10 grams or less)", "High (15 grams or less) **Warning"]),
-            _buildSectionTitle("Cuisine"),
-            _buildFilterButtons(["American", "East Asian", "Mexican", "Indian", "Italian", "Middle Eastern"]),
+            creatingSectionTitle("Cook Time"),
+            createFilterButton(["Low (30 min or less)", "Medium (1 hour or less)", "High (More than 1 hour)"]),
+            creatingSectionTitle("Carbohydrates Range"),
+            createFilterButton(["Low (10 grams or less)", "Medium (20 grams or less)", "High (30 grams or less) **Warning"]),
+            creatingSectionTitle("Sugar Range"),
+            createFilterButton(["Low (5 grams or less)", "Low (10 grams or less)", "High (15 grams or less) **Warning"]),
+            creatingSectionTitle("Cuisine"),
+            createFilterButton(["American", "East Asian", "Mexican", "Indian", "Italian", "Middle Eastern"]),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget creatingSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
       child: Text(
@@ -50,7 +50,7 @@ class FilterViewState extends State<FilterView> {
     );
   }
 
-  Widget _buildFilterButtons(List<String> options) {
+  Widget createFilterButton(List<String> options) {
     return Wrap(
       spacing: 8,
       runSpacing: 8,
