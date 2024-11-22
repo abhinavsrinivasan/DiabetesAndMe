@@ -139,11 +139,11 @@ class MainPage extends StatefulWidget {
   MainPage({required this.profilePresenter, required this.filterPresenter});
 
   @override
-  _MainPageState createState() => _MainPageState();
+  MainPageState createState() => MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 1; 
+class MainPageState extends State<MainPage> {
+  int tabNum = 1; 
 
   late List<Widget> _pages;
 
@@ -168,18 +168,18 @@ class _MainPageState extends State<MainPage> {
     ];
   }
 
-  void _onItemTapped(int index) {
+  void Tapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      tabNum = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: _pages[tabNum],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        currentIndex: tabNum,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
@@ -194,7 +194,7 @@ class _MainPageState extends State<MainPage> {
             label: 'Profile',
           ),
         ],
-        onTap: _onItemTapped,
+        onTap: Tapped,
       ),
     );
   }

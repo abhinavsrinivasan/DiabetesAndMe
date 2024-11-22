@@ -9,27 +9,20 @@ class HealthInfoView extends StatefulWidget {
   HealthInfoView({required this.presenter});
 
   @override
-  _HealthInfoViewState createState() => _HealthInfoViewState();
+  HealthInfoViewState createState() => HealthInfoViewState();
 }
 
-class _HealthInfoViewState extends State<HealthInfoView> {
-  bool editingOrNah = false; // Toggles edit mode
+class HealthInfoViewState extends State<HealthInfoView> {
+  bool editingOrNah = false; 
   late Map<String, TextEditingController> controllers;
 
   @override
   void initState() {
     super.initState();
-    // Initialize controllers for each health statistic
+
     controllers = widget.presenter.showHealthData().map((key, value) {
       return MapEntry(key, TextEditingController(text: value));
     });
-  }
-
-  @override
-  void dispose() {
-    // Dispose controllers when the widget is removed
-    controllers.values.forEach((controller) => controller.dispose());
-    super.dispose();
   }
 
   @override

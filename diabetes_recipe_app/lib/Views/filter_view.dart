@@ -62,7 +62,7 @@ class FilterViewState extends State<FilterView> {
               if (isSelected) {
                 selectedFilters.remove(option);
               } else {
-                selectedFilters.add(option); // Select filter
+                selectedFilters.add(option); 
               }
             });
           },
