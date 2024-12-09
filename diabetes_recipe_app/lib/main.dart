@@ -5,8 +5,12 @@ import 'presenters/profile_presenter.dart';
 import 'presenters/filter_presenter.dart';
 import 'views/homescreenRecipes_view.dart';
 import 'views/profileHealth_view.dart';
+<<<<<<< HEAD
 import 'views/filter_view.dart';
 import 'views/profile_view.dart';
+=======
+import 'views/socialMedia_view.dart';
+>>>>>>> 97a3dbf (implemented social media view with dynamic likes and comments yurrrr)
 
 void main() {
   runApp(MyApp());
@@ -151,6 +155,7 @@ class MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _pages = [
+<<<<<<< HEAD
       Center(child: Text("Social Media")),
       HomeScreenRecipesView(
         presenter: widget.filterPresenter,
@@ -164,6 +169,34 @@ class MainPageState extends State<MainPage> {
           );
         },
       ),
+=======
+      SocialMediaView(
+        recipes: [
+          {
+            "title": "Feta Pasta",
+            "imagePath": "assets/images/feta_pasta.jpg",
+            "likes": 34,
+            "liked": false, // Default state
+            "comments": ["Looks delicious!", "I tried this, and it's amazing!"],
+          },
+          {
+            "title": "Chicken Salad",
+            "imagePath": "assets/images/chicken_salad.jpg",
+            "likes": 12,
+            "liked": false,
+            "comments": ["Healthy and tasty!", "Perfect for a quick lunch."],
+          },
+          {
+            "title": "Avocado Toast",
+            "imagePath": "assets/images/avocado_toast.jpg",
+            "likes": 45,
+            "liked": false,
+            "comments": ["Simple yet satisfying!", "My go-to breakfast."],
+          },
+        ],
+      ),
+      HomeScreenRecipesView(presenter: widget.filterPresenter),
+>>>>>>> 97a3dbf (implemented social media view with dynamic likes and comments yurrrr)
       ProfileView(presenter: widget.profilePresenter),
     ];
   }
