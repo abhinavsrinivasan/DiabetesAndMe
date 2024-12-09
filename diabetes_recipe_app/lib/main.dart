@@ -191,7 +191,7 @@ class MainPageState extends State<MainPage> {
             "imagePath": "assets/images/avocado_toast.jpg",
             "likes": 45,
             "liked": false,
-            "comments": ["Simple yet satisfying!", "My go-to breakfast."],
+            "comments": ["Simple yet satisfying!", "My go to breakfast."],
           },
         ],
       ),

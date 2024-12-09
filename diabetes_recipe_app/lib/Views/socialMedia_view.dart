@@ -81,7 +81,7 @@ class _SocialMediaViewState extends State<SocialMediaView> {
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 8),
-                      // Like and Comment Counts
+                      // Like & Comment Counts
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
