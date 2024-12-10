@@ -136,15 +136,15 @@ class FullRecipeView extends StatefulWidget {
 }
 
 class _FullRecipeViewState extends State<FullRecipeView> {
-  final TextEditingController _commentController = TextEditingController();
+  final TextEditingController controllerForComments = TextEditingController();
 
   void _addComment() {
-    final newComment = _commentController.text.trim();
+    final newComment = controllerForComments.text.trim();
     if (newComment.isNotEmpty) {
       setState(() {
         widget.recipe['comments'].add(newComment);
       });
-      _commentController.clear();
+      controllerForComments.clear();
       widget.onCommentAdded();
     }
   }
@@ -186,7 +186,7 @@ class _FullRecipeViewState extends State<FullRecipeView> {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: _commentController,
+                    controller: controllerForComments,
                     decoration: InputDecoration(
                       hintText: "Add a comment...",
                       border: OutlineInputBorder(),
