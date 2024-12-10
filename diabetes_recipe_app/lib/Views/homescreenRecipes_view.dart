@@ -6,7 +6,7 @@ import 'recipe_details_view.dart';
 
 class HomeScreenRecipesView extends StatefulWidget {
   final FilterPresenter presenter;
-  final ProfilePresenter profilePresenter; 
+  final ProfilePresenter profilePresenter;
   final VoidCallback pressed;
 
   HomeScreenRecipesView({
@@ -22,64 +22,74 @@ class HomeScreenRecipesView extends StatefulWidget {
 class HomeScreenRecipesViewState extends State<HomeScreenRecipesView> {
   @override
   Widget build(BuildContext context) {
-
-    final recipes = widget.presenter.getFilteredRecipes();
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Recipes"),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.filter_alt),
-            onPressed: widget.pressed, 
+    return ValueListenableBuilder<List<Recipe>>(
+      valueListenable: widget.presenter.filteredRecipesNotifier,
+      builder: (context, recipes, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("Recipes"),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                icon: Icon(Icons.filter_alt),
+                onPressed: widget.pressed,
+              ),
+            ],
           ),
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: recipes.length,
-        itemBuilder: (context, index) {
-          final recipe = recipes[index];
-          return recipeCardDetails(context, recipe);
-        },
-      ),
+          body: recipes.isEmpty
+              ? Center(child: Text("No recipes match the selected filters"))
+              : ListView.builder(
+                  itemCount: recipes.length,
+                  itemBuilder: (context, index) {
+                    final recipe = recipes[index];
+                    return recipeCardDetails(context, recipe);
+                  },
+                ),
+        );
+      },
     );
   }
-
 
   Widget recipeCardDetails(BuildContext context, Recipe recipe) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: ListTile(
-        leading: Image.asset(
-          recipe.imagePath,
-          width: 60,
-          height: 60,
-          fit: BoxFit.cover,
+  return Card(
+    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+    child: ListTile(
+      leading: Image.asset(
+        recipe.imagePath,
+        width: 60,
+        height: 60,
+        fit: BoxFit.cover,
+      ),
+      title: Text(
+        recipe.title,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(
+        "Cuisine: ${recipe.cuisine}\n"
+        "Cook Time: ${recipe.cookTime} mins\n"
+        "Carbs: ${recipe.carbRange} grams\n"
+        "Sugar: ${recipe.sugarRange} grams",
+      ),
+      trailing: IconButton(
+        icon: Icon(
+          recipe.favOrNah ? Icons.favorite : Icons.favorite_border,
+          color: recipe.favOrNah ? Colors.red : null,
         ),
-        title: Text(recipe.title, style: TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text("Cuisine: ${recipe.cuisine}\nCook Time: ${recipe.cookTime} mins"),
-        //heart
-        trailing: IconButton(
-          icon: Icon(
-            recipe.favOrNah ? Icons.favorite : Icons.favorite_border,
-            color: recipe.favOrNah ? Colors.red : null,
-          ),
-          onPressed: () {
-            changeFavStatus(recipe);
-          },
-        ),
-        onTap: () {
-          recipeDetails(context, recipe);
+        onPressed: () {
+          changeFavStatus(recipe);
         },
       ),
-    );
-  }
+      onTap: () {
+        recipeDetails(context, recipe);
+      },
+    ),
+  );
+}
 
-  //favoriting logic
+
   void changeFavStatus(Recipe recipe) {
     setState(() {
-      recipe.favOrNah = !recipe.favOrNah; //make it the opposite
+      recipe.favOrNah = !recipe.favOrNah;
       if (recipe.favOrNah) {
         widget.profilePresenter.userModel.favoriteRecipes.add(recipe);
       } else {
@@ -88,7 +98,6 @@ class HomeScreenRecipesViewState extends State<HomeScreenRecipesView> {
     });
   }
 
-  //go into recipe
   void recipeDetails(BuildContext context, Recipe recipe) {
     Navigator.push(
       context,

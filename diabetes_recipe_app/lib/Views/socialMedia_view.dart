@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 class SocialMediaView extends StatefulWidget {
-  final List<Map<String, dynamic>> recipes; // A list of recipes with image, title, likes, and comments
+  final List<Map<String, dynamic>> recipes;
 
   SocialMediaView({required this.recipes});
 
   @override
-  _SocialMediaViewState createState() => _SocialMediaViewState();
+  SocialMediaViewState createState() => SocialMediaViewState();
 }
 
-class _SocialMediaViewState extends State<SocialMediaView> {
+class SocialMediaViewState extends State<SocialMediaView> {
   late List<Map<String, dynamic>> recipeCards;
 
   @override
   void initState() {
     super.initState();
-    // Initialize recipe cards from the passed recipes
+
     recipeCards = widget.recipes;
   }
 
@@ -26,7 +26,7 @@ class _SocialMediaViewState extends State<SocialMediaView> {
     });
   }
 
-  void _viewRecipeImageWithComments(BuildContext context, int index) {
+  void commentRecipes(BuildContext context, int index) {
     final recipe = recipeCards[index];
     Navigator.push(
       context,
@@ -35,8 +35,8 @@ class _SocialMediaViewState extends State<SocialMediaView> {
           recipe: recipe,
           onCommentAdded: () {
             setState(() {
-              // Update the UI to reflect the increased comment count
-              recipe['comments'] = recipe['comments'];
+
+              recipe['comments'] = recipe['comments'];//new comments r reflected in parent view
             });
           },
         ),
@@ -60,9 +60,9 @@ class _SocialMediaViewState extends State<SocialMediaView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Clickable Recipe Image
+
                 GestureDetector(
-                  onTap: () => _viewRecipeImageWithComments(context, index),
+                  onTap: () => commentRecipes(context, index),
                   child: Image.asset(
                     recipe['imagePath'],
                     width: double.infinity,
@@ -75,13 +75,12 @@ class _SocialMediaViewState extends State<SocialMediaView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Recipe Title
                       Text(
                         recipe['title'],
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 8),
-                      // Like & Comment Counts
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -102,7 +101,7 @@ class _SocialMediaViewState extends State<SocialMediaView> {
                             ],
                           ),
                           GestureDetector(
-                            onTap: () => _viewRecipeImageWithComments(context, index),
+                            onTap: () => commentRecipes(context, index),
                             child: Row(
                               children: [
                                 Icon(Icons.comment_outlined),
@@ -125,7 +124,7 @@ class _SocialMediaViewState extends State<SocialMediaView> {
   }
 }
 
-// Full Recipe View with Comments
+
 class FullRecipeView extends StatefulWidget {
   final Map<String, dynamic> recipe;
   final VoidCallback onCommentAdded;
@@ -146,7 +145,7 @@ class _FullRecipeViewState extends State<FullRecipeView> {
         widget.recipe['comments'].add(newComment);
       });
       _commentController.clear();
-      widget.onCommentAdded(); // Notify the parent view to update
+      widget.onCommentAdded();
     }
   }
 
@@ -160,7 +159,7 @@ class _FullRecipeViewState extends State<FullRecipeView> {
       ),
       body: Column(
         children: [
-          // Full Recipe Image
+
           Image.asset(
             recipe['imagePath'],
             width: double.infinity,
@@ -168,7 +167,7 @@ class _FullRecipeViewState extends State<FullRecipeView> {
             fit: BoxFit.cover,
           ),
           SizedBox(height: 16),
-          // Comments Section
+
           Expanded(
             child: ListView.builder(
               itemCount: recipe['comments'].length,
@@ -180,7 +179,7 @@ class _FullRecipeViewState extends State<FullRecipeView> {
               },
             ),
           ),
-          // Add Comment Section
+   
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
