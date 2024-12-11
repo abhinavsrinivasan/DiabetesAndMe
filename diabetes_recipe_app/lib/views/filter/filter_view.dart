@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../presenters/filter_presenter.dart';
+import '../../viewmodels/filter/filter_viewmodel.dart';
+
 
 class FilterView extends StatefulWidget {
   final FilterPresenter presenter;

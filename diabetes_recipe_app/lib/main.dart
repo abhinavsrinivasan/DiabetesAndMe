@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'models/user_model.dart';
 import 'models/recipe_model.dart';
-import 'presenters/profile_presenter.dart';
-import 'presenters/filter_presenter.dart';
-import 'views/homescreenRecipes_view.dart';
-import 'views/profileHealth_view.dart';
-import 'views/filter_view.dart';
-import 'views/profile_view.dart';
-import 'views/socialMedia_view.dart';
+import 'viewmodels/profile/profile_viewmodel.dart';
+import 'viewmodels/profile/profileReminders_viewmodel.dart';
+import 'viewmodels/filter/filter_viewmodel.dart';
+import 'views/home/homescreenRecipes_view.dart';
+import 'views/profile/profileHealth_view.dart';
+import 'views/filter/filter_view.dart';
+import 'views/profile/profile_view.dart';
+import 'views/social/socialMedia_view.dart';
 
 void main() {
   runApp(MyApp());

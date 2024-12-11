@@ -1,7 +1,7 @@
 //
 
-import '../models/user_model.dart';
-import '../models/recipe_model.dart';
+import '../../models/user_model.dart';
+import '../../models/recipe_model.dart';
 
 class ProfilePresenter {
   final UserModel userModel;

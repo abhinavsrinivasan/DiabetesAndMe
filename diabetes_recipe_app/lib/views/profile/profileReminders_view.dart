@@ -3,7 +3,8 @@
 
 //child
 import 'package:flutter/material.dart';
-import '../presenters/profile_presenter.dart';
+import '../../viewmodels/profile/profile_viewmodel.dart';
+
 
 class RemindersView extends StatefulWidget {
   final ProfilePresenter presenter;

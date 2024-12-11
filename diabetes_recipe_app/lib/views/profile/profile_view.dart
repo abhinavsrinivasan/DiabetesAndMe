@@ -3,7 +3,8 @@
 //parent view - manages navigation and layout
 
 import 'package:flutter/material.dart';
-import '../presenters/profile_presenter.dart';
+import '../../viewmodels/profile/profile_viewmodel.dart';
+import '../../viewmodels/profile/profileReminders_viewmodel.dart';
 import 'profileFavorites_view.dart';
 import 'profileReminders_view.dart';
 import 'profileHealth_view.dart'; 

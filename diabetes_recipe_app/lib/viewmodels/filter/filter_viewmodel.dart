@@ -1,5 +1,5 @@
-import '../models/filter_model.dart';
-import '../models/recipe_model.dart';
+import '../../models/filter_model.dart';
+import '../../models/recipe_model.dart';
 import 'package:flutter/material.dart';
 
 class FilterPresenter {

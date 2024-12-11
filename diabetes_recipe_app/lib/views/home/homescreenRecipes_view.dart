@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/recipe_model.dart';
-import '../presenters/filter_presenter.dart';
-import '../presenters/profile_presenter.dart';
+import '../../models/recipe_model.dart';
+import '../../viewmodels/filter/filter_viewmodel.dart';
+import '../../viewmodels/profile/profile_viewmodel.dart';
 import 'recipe_details_view.dart';
 
 class HomeScreenRecipesView extends StatefulWidget {

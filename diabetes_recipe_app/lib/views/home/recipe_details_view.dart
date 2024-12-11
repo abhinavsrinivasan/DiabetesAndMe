@@ -1,6 +1,6 @@
 //
 import 'package:flutter/material.dart';
-import '../models/recipe_model.dart';
+import '../../models/recipe_model.dart';
 
 class RecipeDetailsView extends StatelessWidget {
   final Recipe recipe;
