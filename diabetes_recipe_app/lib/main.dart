@@ -15,7 +15,6 @@ import 'viewmodels/profile/profileFavorites_viewmodel.dart';
 import 'viewmodels/home/homescreenRecipes_viewmodel.dart';
 import 'viewmodels/social/socialMedia_viewmodel.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -144,8 +143,8 @@ class MyApp extends StatelessWidget {
             userModel: userModel,
           ),
         ),
-        Provider(
-          create: (_) => FilterPresenter(recipeList),
+        ChangeNotifierProvider(
+          create: (_) => FilterViewModel(recipeList),
         ),
         ChangeNotifierProvider(
           create: (_) => SocialMediaViewModel(
@@ -179,7 +178,6 @@ class MyApp extends StatelessWidget {
         title: 'Diabetes Recipe App',
         home: MainPage(
           profilePresenter: ProfilePresenter(userModel),
-          filterPresenter: FilterPresenter(recipeList),
         ),
       ),
     );
@@ -188,12 +186,8 @@ class MyApp extends StatelessWidget {
 
 class MainPage extends StatefulWidget {
   final ProfilePresenter profilePresenter;
-  final FilterPresenter filterPresenter;
 
-  MainPage({
-    required this.profilePresenter,
-    required this.filterPresenter,
-  });
+  MainPage({required this.profilePresenter});
 
   @override
   MainPageState createState() => MainPageState();
@@ -209,19 +203,21 @@ class MainPageState extends State<MainPage> {
     super.initState();
     _pages = [
       Consumer<SocialMediaViewModel>(
-        builder: (context, viewModel, child) {
-          return SocialMediaView();
-        },
+        builder: (context, viewModel, child) => SocialMediaView(),
       ),
-      HomeScreenRecipesView(
-        presenter: widget.filterPresenter,
-        profilePresenter: widget.profilePresenter,
-        pressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => FilterView(presenter: widget.filterPresenter),
-            ),
+      Consumer<FilterViewModel>(
+        builder: (context, filterViewModel, child) {
+          return HomeScreenRecipesView(
+            filterViewModel: filterViewModel,
+            profilePresenter: widget.profilePresenter,
+            pressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FilterView(),
+                ),
+              );
+            },
           );
         },
       ),

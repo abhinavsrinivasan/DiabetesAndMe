@@ -6,21 +6,23 @@ import '../../viewmodels/home/homescreenRecipes_viewmodel.dart';
 import '../../viewmodels/profile/profile_viewmodel.dart';
 
 class HomeScreenRecipesView extends StatelessWidget {
-  final FilterPresenter presenter;
+  final FilterViewModel filterViewModel;
   final ProfilePresenter profilePresenter;
   final VoidCallback pressed;
 
   HomeScreenRecipesView({
-    required this.presenter,
+    required this.filterViewModel,
     required this.profilePresenter,
     required this.pressed,
   });
 
   @override
   Widget build(BuildContext context) {
+    final filterViewModel = Provider.of<FilterViewModel>(context, listen: true);
+    final recipes = filterViewModel.filteredRecipes;
+
     return Consumer<HomeScreenRecipesViewModel>(
       builder: (context, viewModel, child) {
-        final recipes = presenter.filteredRecipesNotifier.value;
         return Scaffold(
           appBar: AppBar(
             title: Text("Recipes"),
