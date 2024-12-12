@@ -1,18 +1,16 @@
-//
-
-//parent view - manages navigation and layout
-
 import 'package:flutter/material.dart';
 import '../../viewmodels/profile/profile_viewmodel.dart';
 import '../../viewmodels/profile/profileReminders_viewmodel.dart';
 import 'profileFavorites_view.dart';
 import 'profileReminders_view.dart';
-import 'profileHealth_view.dart'; 
+import 'profileHealth_view.dart';
 
 class ProfileView extends StatefulWidget {
   final ProfilePresenter presenter;
 
-  ProfileView({required this.presenter});
+  ProfileView({
+    required this.presenter,
+  });
 
   @override
   ProfileViewState createState() => ProfileViewState();
@@ -23,16 +21,16 @@ class ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    
+    // Define the views based on the selected tab index
     final views = [
-      HealthInfoView(presenter: widget.presenter), 
-      FavoritesView(presenter: widget.presenter),
-      RemindersView(presenter: widget.presenter),
+      HealthInfoView(),
+      FavoritesView(),
+      RemindersView(), 
     ];
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, //defaukt setting
+        automaticallyImplyLeading: false,
         title: Column(
           children: [
             CircleAvatar(

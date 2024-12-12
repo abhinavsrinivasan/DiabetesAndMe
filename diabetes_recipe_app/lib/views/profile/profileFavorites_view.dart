@@ -1,19 +1,15 @@
-//child
-
 import 'package:flutter/material.dart';
-import '../../viewmodels/profile/profile_viewmodel.dart';
+import 'package:provider/provider.dart';
+import '../../viewmodels/profile/profileFavorites_viewmodel.dart';
 
 class FavoritesView extends StatelessWidget {
-  final ProfilePresenter presenter;
-
-  FavoritesView({required this.presenter});
-
   @override
   Widget build(BuildContext context) {
-    final favoriteRecipes = presenter.userModel.favoriteRecipes;
+    // Use the ViewModel provided via Provider
+    final favoritesViewModel = Provider.of<ProfileFavoritesViewModel>(context);
 
+    final favoriteRecipes = favoritesViewModel.favoriteRecipes;
 
-    //favorites page format
     return favoriteRecipes.isEmpty
         ? Center(child: Text("No favorites yet"))
         : ListView(

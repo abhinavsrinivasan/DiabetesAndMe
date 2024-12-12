@@ -1,33 +1,13 @@
-//child
-
 import 'package:flutter/material.dart';
-import '../../viewmodels/profile/profile_viewmodel.dart';
+import 'package:provider/provider.dart';
+import '../../viewmodels/profile/profileHealth_viewmodel.dart';
 
-class HealthInfoView extends StatefulWidget {
-  final ProfilePresenter presenter;
-
-  HealthInfoView({required this.presenter});
-
-  @override
-  HealthInfoViewState createState() => HealthInfoViewState();
-}
-
-class HealthInfoViewState extends State<HealthInfoView> {
-  bool editingOrNah = false; 
-  late Map<String, TextEditingController> controllers;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controllers = widget.presenter.showHealthData().map((key, value) {
-      return MapEntry(key, TextEditingController(text: value));
-    });
-  }
-
+class HealthInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final healthStats = widget.presenter.showHealthData();
+    final viewModel = Provider.of<ProfileHealthViewModel>(context);
+
+    final healthStats = viewModel.healthData;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -37,9 +17,9 @@ class HealthInfoViewState extends State<HealthInfoView> {
           for (var entry in healthStats.entries)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: editingOrNah
+              child: viewModel.isEditing
                   ? TextField(
-                      controller: controllers[entry.key],
+                      controller: viewModel.controllers[entry.key],
                       decoration: InputDecoration(labelText: entry.key),
                     )
                   : Text(
@@ -49,17 +29,8 @@ class HealthInfoViewState extends State<HealthInfoView> {
             ),
           SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {
-              setState(() {
-                if (editingOrNah) {
-                  controllers.forEach((key, controller) {
-                    widget.presenter.editHealthData(key, controller.text);
-                  });
-                }
-                editingOrNah = !editingOrNah;
-              });
-            },
-            child: Text(editingOrNah ? "Save" : "Edit"),
+            onPressed: viewModel.toggleEditing,
+            child: Text(viewModel.isEditing ? "Save" : "Edit"),
           ),
         ],
       ),

@@ -1,67 +1,46 @@
-//
-
-
-//child
 import 'package:flutter/material.dart';
-import '../../viewmodels/profile/profile_viewmodel.dart';
+import 'package:provider/provider.dart';
+import '../../viewmodels/profile/profileReminders_viewmodel.dart';
 
+class RemindersView extends StatelessWidget {
 
-class RemindersView extends StatefulWidget {
-  final ProfilePresenter presenter;
-
-  RemindersView({required this.presenter});
-
-  @override
-  _RemindersViewState createState() => _RemindersViewState();
-}
-
-class _RemindersViewState extends State<RemindersView> {
   @override
   Widget build(BuildContext context) {
-    
-    //
-    final reminders = widget.presenter.displayReminders();
 
-    //padding along edge
+    final remindersViewModel = Provider.of<ProfileRemindersViewModel>(context);
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-
-          //remaining meals
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Remaining Meals: ${reminders['remainingMeals']}",
+                "Remaining Meals: ${remindersViewModel.remainingMeals}",
                 style: TextStyle(fontSize: 16),
               ),
               IconButton(
                 icon: Icon(Icons.remove),
                 onPressed: () {
-                  setState(() {
-                    widget.presenter.decrementMeals();
-                  });
+                  remindersViewModel.decrementMeals();
                 },
               ),
             ],
           ),
           SizedBox(height: 16),
 
-          //exercise decrement
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Remaining Exercises: ${reminders['remainingExercises']}",
+                "Remaining Exercises: ${remindersViewModel.remainingExercises}",
                 style: TextStyle(fontSize: 16),
               ),
               IconButton(
                 icon: Icon(Icons.remove),
                 onPressed: () {
-                  setState(() {
-                    widget.presenter.decrementExercises();
-                  });
+                  remindersViewModel.decrementExercises();
                 },
               ),
             ],
