@@ -18,6 +18,9 @@ class ProfileHealthViewModel extends ChangeNotifier {
 
   Map<String, String> get healthData => _userModel.healthInformation;
 
+  int get consumedCarbs => _userModel.consumedCarbs;
+  int get consumedSugar => _userModel.consumedSugar;
+
   void _initializeControllers() {
     _userModel.healthInformation.forEach((key, value) {
       controllers[key] = TextEditingController(text: value);
@@ -34,6 +37,26 @@ class ProfileHealthViewModel extends ChangeNotifier {
     _isEditing = !_isEditing;
     notifyListeners();
   }
+
+   // Adds carbs to the consumed total
+  void addCarbs(int value) {
+    _userModel.consumedCarbs += value;
+    notifyListeners();
+  }
+
+  // Adds sugar to the consumed total
+  void addSugar(int value) {
+    _userModel.consumedSugar += value;
+    notifyListeners();
+  }
+
+   // Resets nutritional info to defaults
+  void resetNutritionalInfo() {
+    _userModel.consumedCarbs = 0;
+    _userModel.consumedSugar = 0;
+    notifyListeners();
+  }
+
 
   void disposeControllers() {
     // Dispose all controllers when done
