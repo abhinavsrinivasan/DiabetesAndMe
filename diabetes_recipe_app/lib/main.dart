@@ -129,13 +129,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ProfileRemindersViewModel(userModel: userModel),
-        ),
-        ChangeNotifierProvider(
           create: (_) => ProfileHealthViewModel(userModel: userModel),
         ),
         ChangeNotifierProvider(
           create: (_) => ProfileFavoritesViewModel(userModel: userModel),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileRemindersViewModel(userModel: userModel),
         ),
         ChangeNotifierProvider(
           create: (_) => HomeScreenRecipesViewModel(
@@ -144,7 +144,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider(
-          create: (_) => FilterViewModel(recipeList),
+          create: (_) => FilterViewModel(recipes: recipeList),
         ),
         ChangeNotifierProvider(
           create: (_) => SocialMediaViewModel(
@@ -173,22 +173,19 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileViewModel(userModel: userModel),
+        ),
       ],
       child: MaterialApp(
         title: 'Diabetes Recipe App',
-        home: MainPage(
-          profilePresenter: ProfilePresenter(userModel),
-        ),
+        home: MainPage(),
       ),
     );
   }
 }
 
 class MainPage extends StatefulWidget {
-  final ProfilePresenter profilePresenter;
-
-  MainPage({required this.profilePresenter});
-
   @override
   MainPageState createState() => MainPageState();
 }
@@ -207,9 +204,10 @@ class MainPageState extends State<MainPage> {
       ),
       Consumer<FilterViewModel>(
         builder: (context, filterViewModel, child) {
+          final profileViewModel = Provider.of<ProfileViewModel>(context, listen: false);
           return HomeScreenRecipesView(
             filterViewModel: filterViewModel,
-            profilePresenter: widget.profilePresenter,
+            profileViewModel: profileViewModel,
             pressed: () {
               Navigator.push(
                 context,
@@ -221,8 +219,8 @@ class MainPageState extends State<MainPage> {
           );
         },
       ),
-      ProfileView(
-        presenter: widget.profilePresenter,
+      Consumer<ProfileViewModel>(
+        builder: (context, viewModel, child) => ProfileView(),
       ),
     ];
   }

@@ -5,7 +5,7 @@ import '../../viewmodels/profile/profileFavorites_viewmodel.dart';
 class FavoritesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Use the ViewModel provided via Provider
+    //use the ViewModel provided via Provider
     final favoritesViewModel = Provider.of<ProfileFavoritesViewModel>(context);
 
     final favoriteRecipes = favoritesViewModel.favoriteRecipes;

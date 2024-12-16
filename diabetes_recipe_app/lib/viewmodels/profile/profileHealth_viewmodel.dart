@@ -8,6 +8,8 @@ class ProfileHealthViewModel extends ChangeNotifier {
 
   // Controllers for text fields
   final Map<String, TextEditingController> controllers = {};
+  final TextEditingController carbGoalController = TextEditingController();
+  final TextEditingController sugarGoalController = TextEditingController();
 
   ProfileHealthViewModel({required UserModel userModel})
       : _userModel = userModel {
@@ -21,15 +23,20 @@ class ProfileHealthViewModel extends ChangeNotifier {
   int get consumedCarbs => _userModel.consumedCarbs;
   int get consumedSugar => _userModel.consumedSugar;
 
+  int get carbGoal => _userModel.carbGoal;
+  int get sugarGoal => _userModel.sugarGoal;
+
   void _initializeControllers() {
     _userModel.healthInformation.forEach((key, value) {
       controllers[key] = TextEditingController(text: value);
     });
+
+    carbGoalController.text = (_userModel.carbGoal).toString();
+    sugarGoalController.text = (_userModel.sugarGoal).toString();
   }
 
   void toggleEditing() {
     if (_isEditing) {
-      // Save changes
       controllers.forEach((key, controller) {
         _userModel.healthInformation[key] = controller.text;
       });
@@ -38,28 +45,23 @@ class ProfileHealthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-   // Adds carbs to the consumed total
   void addCarbs(int value) {
     _userModel.consumedCarbs += value;
     notifyListeners();
   }
 
-  // Adds sugar to the consumed total
   void addSugar(int value) {
     _userModel.consumedSugar += value;
     notifyListeners();
   }
 
-   // Resets nutritional info to defaults
-  void resetNutritionalInfo() {
-    _userModel.consumedCarbs = 0;
-    _userModel.consumedSugar = 0;
+  void setCarbGoal(int goal) {
+    _userModel.carbGoal = goal;
     notifyListeners();
   }
 
-
-  void disposeControllers() {
-    // Dispose all controllers when done
-    controllers.values.forEach((controller) => controller.dispose());
+  void setSugarGoal(int goal) {
+    _userModel.sugarGoal = goal;
+    notifyListeners();
   }
 }

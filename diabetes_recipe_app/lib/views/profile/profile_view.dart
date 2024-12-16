@@ -1,72 +1,59 @@
+//
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../viewmodels/profile/profile_viewmodel.dart';
-import '../../viewmodels/profile/profileReminders_viewmodel.dart';
 import 'profileFavorites_view.dart';
 import 'profileReminders_view.dart';
 import 'profileHealth_view.dart';
 
-class ProfileView extends StatefulWidget {
-  final ProfilePresenter presenter;
-
-  ProfileView({
-    required this.presenter,
-  });
-
-  @override
-  ProfileViewState createState() => ProfileViewState();
-}
-
-class ProfileViewState extends State<ProfileView> {
-  int tabIndex = 0;
-
+class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Define the views based on the selected tab index
+    final viewModel = Provider.of<ProfileViewModel>(context);
+
     final views = [
       HealthInfoView(),
       FavoritesView(),
-      RemindersView(), 
+      RemindersView(),
     ];
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Column(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 40,
-              backgroundImage: widget.presenter.userModel.profilePicture,
+              radius: 20, 
+              backgroundImage: viewModel.profilePicture,
             ),
-            SizedBox(height: 8),
-            Text(widget.presenter.userModel.name),
+            SizedBox(width: 8),
+            Text(viewModel.userName),
           ],
         ),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
       ),
       body: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(3, (index) {
-              final titles = ['Health Info', 'Favorites', 'Reminders'];
-              return ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    tabIndex = index;
-                  });
-                },
-                child: Text(
-                  titles[index],
-                  style: TextStyle(
-                    fontWeight: tabIndex == index ? FontWeight.bold : FontWeight.normal,
-                  ),
-                ),
-              );
-            }),
+            children: [
+              ElevatedButton(
+                onPressed: () => viewModel.setTabIndex(0),
+                child: Text("Health Info"),
+              ),
+              ElevatedButton(
+                onPressed: () => viewModel.setTabIndex(1),
+                child: Text("Favorites"),
+              ),
+              ElevatedButton(
+                onPressed: () => viewModel.setTabIndex(2),
+                child: Text("Reminders"),
+              ),
+            ],
           ),
-          Expanded(child: views[tabIndex]),
+          Expanded(child: views[viewModel.currentTabIndex]),
         ],
       ),
     );

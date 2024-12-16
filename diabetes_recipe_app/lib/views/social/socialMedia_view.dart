@@ -7,10 +7,11 @@ class SocialMediaView extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<SocialMediaViewModel>(context);
 
+    
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Social Media"),
-        centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: viewModel.recipeCards.length,
@@ -39,7 +40,6 @@ class SocialMediaView extends StatelessWidget {
                         recipe['title'],
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -50,22 +50,15 @@ class SocialMediaView extends StatelessWidget {
                                   recipe['liked']
                                       ? Icons.thumb_up
                                       : Icons.thumb_up_alt_outlined,
-                                  color: recipe['liked'] ? Colors.blue : Colors.grey,
                                 ),
                                 onPressed: () => viewModel.toggleLike(index),
                               ),
-                              Text("${recipe['likes']} likes"),
+                              Text("${recipe['likes']}"),
                             ],
                           ),
                           GestureDetector(
                             onTap: () => viewModel.commentRecipes(context, index),
-                            child: Row(
-                              children: [
-                                Icon(Icons.comment_outlined),
-                                SizedBox(width: 4),
-                                Text("${recipe['comments'].length} comments"),
-                              ],
-                            ),
+                            child: Text("${recipe['comments'].length} comments"),
                           ),
                         ],
                       ),

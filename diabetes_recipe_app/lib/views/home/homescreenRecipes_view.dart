@@ -1,3 +1,5 @@
+//
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/recipe_model.dart';
@@ -7,18 +9,17 @@ import '../../viewmodels/profile/profile_viewmodel.dart';
 
 class HomeScreenRecipesView extends StatelessWidget {
   final FilterViewModel filterViewModel;
-  final ProfilePresenter profilePresenter;
+  final ProfileViewModel profileViewModel; 
   final VoidCallback pressed;
 
   HomeScreenRecipesView({
     required this.filterViewModel,
-    required this.profilePresenter,
+    required this.profileViewModel,
     required this.pressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    final filterViewModel = Provider.of<FilterViewModel>(context, listen: true);
     final recipes = filterViewModel.filteredRecipes;
 
     return Consumer<HomeScreenRecipesViewModel>(
@@ -34,20 +35,19 @@ class HomeScreenRecipesView extends StatelessWidget {
               ),
             ],
           ),
-          body: recipes.isEmpty
-              ? Center(child: Text("No recipes match the selected filters"))
-              : ListView.builder(
-                  itemCount: recipes.length,
-                  itemBuilder: (context, index) {
-                    final recipe = recipes[index];
-                    return recipeCardDetails(context, recipe, viewModel);
-                  },
-                ),
+          body: ListView.builder(
+            itemCount: recipes.length,
+            itemBuilder: (context, index) {
+              final recipe = recipes[index];
+                return recipeCardDetails(context, recipe, viewModel);
+              },
+            ),
         );
       },
     );
   }
 
+  //for recipe details
   Widget recipeCardDetails(
       BuildContext context, Recipe recipe, HomeScreenRecipesViewModel viewModel) {
     return Card(

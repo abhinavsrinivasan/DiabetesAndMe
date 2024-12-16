@@ -14,8 +14,11 @@ class UserModel {
   int remainingMeals;
   int remainingExercises;
 
-  int consumedCarbs; // Tracks the carbs consumed
-  int consumedSugar; // Tracks the sugar consumed
+  int consumedCarbs;
+  int consumedSugar;
+
+  int carbGoal; 
+  int sugarGoal; 
 
   UserModel({
     required this.name,
@@ -28,17 +31,9 @@ class UserModel {
     this.dailyExercisesGoal = 0,
     this.remainingMeals = 0,
     this.remainingExercises = 0,
-    this.consumedCarbs = 0, // Initializes with zero carbs consumed
-    this.consumedSugar = 0, // Initializes with zero sugar consumed
+    this.consumedCarbs = 0,
+    this.consumedSugar = 0,
+    this.carbGoal = 0, 
+    this.sugarGoal = 0, 
   });
-
-  void addNutritionalInfo(int carbs, int sugar) {
-    consumedCarbs += carbs;
-    consumedSugar += sugar;
-  }
-
-  void resetNutritionalInfo() {
-    consumedCarbs = 0;
-    consumedSugar = 0;
-  }
 }

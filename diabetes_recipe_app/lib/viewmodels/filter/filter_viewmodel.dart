@@ -4,16 +4,14 @@ import '../../models/recipe_model.dart';
 
 class FilterViewModel extends ChangeNotifier {
   final FilterModel _model;
-
   final Set<String> _selectedFilters = {};
 
-  FilterViewModel(List<Recipe> recipes) : _model = FilterModel(recipes);
+  FilterViewModel({required List<Recipe> recipes}) : _model = FilterModel(recipes);
 
   List<Recipe> get filteredRecipes => _model.filteredRecipes;
 
-  bool isFilterSelected(String category, String option) {
-    return _selectedFilters.contains("$category:$option");
-  }
+  bool isFilterSelected(String category, String option) =>
+      _selectedFilters.contains("$category:$option");
 
   void toggleFilter(String category, String option) {
     final filterKey = "$category:$option";
@@ -26,35 +24,42 @@ class FilterViewModel extends ChangeNotifier {
   }
 
   void applyFilters() {
-    String? selectedCuisine;
-    int? maxCookTime;
-    int? maxCarbRange;
-    int? maxSugarRange;
+    List<String> selectedCuisines = [];
+    List<int> maxCookTimes = [];
+    List<int> maxCarbRanges = [];
+    List<int> maxSugarRanges = [];
 
+    // Process selected filters
     for (var filter in _selectedFilters) {
-      if (filter.startsWith("cuisine:")) {
-        selectedCuisine = filter.split(":")[1];
-      } else if (filter.startsWith("cookTime:")) {
-        if (filter.contains("Low")) maxCookTime = 30;
-        if (filter.contains("Medium")) maxCookTime = 60;
-      } else if (filter.startsWith("carbs:")) {
-        if (filter.contains("Low")) maxCarbRange = 10;
-        if (filter.contains("Medium")) maxCarbRange = 20;
-      } else if (filter.startsWith("sugar:")) {
-        if (filter.contains("Low")) maxSugarRange = 5;
-        if (filter.contains("Medium")) maxSugarRange = 10;
+      if (filter.contains("cuisine:")) {
+        selectedCuisines.add(filter.split(":")[1]);
+      } else if (filter.contains("cookTime:Low")) {
+        maxCookTimes.add(30);
+      } else if (filter.contains("cookTime:Medium")) {
+        maxCookTimes.add(60);
+      } else if (filter.contains("carbs:Low")) {
+        maxCarbRanges.add(10);
+      } else if (filter.contains("carbs:Medium")) {
+        maxCarbRanges.add(20);
+      } else if (filter.contains("sugar:Low")) {
+        maxSugarRanges.add(5);
+      } else if (filter.contains("sugar:Medium")) {
+        maxSugarRanges.add(10);
       }
     }
 
-    final filtered = _model.allRecipes.where((recipe) {
-      final matchesCuisine = selectedCuisine == null || recipe.cuisine == selectedCuisine;
-      final matchesCookTime = maxCookTime == null || recipe.cookTime <= maxCookTime;
-      final matchesCarbRange = maxCarbRange == null || recipe.carbRange <= maxCarbRange;
-      final matchesSugarRange = maxSugarRange == null || recipe.sugarRange <= maxSugarRange;
+    _model.filteredRecipes = _model.allRecipes.where((recipe) {
+      final matchesCuisine = selectedCuisines.isEmpty || selectedCuisines.contains(recipe.cuisine);
+      final matchesCookTime =
+          maxCookTimes.isEmpty || maxCookTimes.any((max) => recipe.cookTime <= max);
+      final matchesCarbRange =
+          maxCarbRanges.isEmpty || maxCarbRanges.any((max) => recipe.carbRange <= max);
+      final matchesSugarRange =
+          maxSugarRanges.isEmpty || maxSugarRanges.any((max) => recipe.sugarRange <= max);
+
       return matchesCuisine && matchesCookTime && matchesCarbRange && matchesSugarRange;
     }).toList();
 
-    _model.filteredRecipes = filtered;
     notifyListeners();
   }
 

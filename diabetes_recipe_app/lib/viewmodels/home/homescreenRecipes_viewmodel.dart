@@ -1,3 +1,5 @@
+//
+
 import 'package:flutter/material.dart';
 import '../../models/recipe_model.dart';
 import '../../models/user_model.dart';
@@ -17,9 +19,11 @@ class HomeScreenRecipesViewModel extends ChangeNotifier {
 
   void changeFavStatus(Recipe recipe) {
     recipe.favOrNah = !recipe.favOrNah;
-    if (recipe.favOrNah) {
+    if (recipe.favOrNah) 
+    {
       userModel.favoriteRecipes.add(recipe);
-    } else {
+    } else 
+    {
       userModel.favoriteRecipes.remove(recipe);
     }
     notifyListeners();

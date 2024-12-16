@@ -10,8 +10,13 @@ class SocialMediaViewModel extends ChangeNotifier {
 
   void toggleLike(int index) {
     final recipe = _recipes[index];
-    recipe['liked'] = !(recipe['liked'] ?? false);
-    recipe['likes'] += recipe['liked'] ? 1 : -1;
+    if (recipe['liked']) {
+      recipe['liked'] = false;
+      recipe['likes'] -= 1;
+    } else {
+      recipe['liked'] = true;
+      recipe['likes'] += 1;
+    }
     notifyListeners();
   }
 
@@ -91,7 +96,6 @@ class _FullRecipeViewState extends State<FullRecipeView> {
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      hintText: "Add a comment...",
                       border: OutlineInputBorder(),
                     ),
                   ),
