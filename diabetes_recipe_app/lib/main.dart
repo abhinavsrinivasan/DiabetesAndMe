@@ -151,7 +151,7 @@ class MyApp extends StatelessWidget {
             recipes: [
               {
                 "title": "Feta Pasta",
-                "imagePath": "assets/images/FetaPasta.jpg",
+                "imagePath": "assets/images/fetaPasta.jpg",
                 "likes": 34,
                 "liked": false,
                 "comments": ["Looks delicious!", "I tried this, and it's amazing!"],

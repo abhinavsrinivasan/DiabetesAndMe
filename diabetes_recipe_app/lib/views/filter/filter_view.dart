@@ -15,72 +15,65 @@ class FilterView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (var section in filterButtons)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
-                    child: Text(
-                      section['title'],
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        child: SingleChildScrollView( // Added Scrollable Widget
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (var section in filterButtons)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+                      child: Text(
+                        section['title'],
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
                     ),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: section['options'].map<Widget>((option) {
+                        final isSelected =
+                            viewModel.isFilterSelected(section['category'], option);
+
+                        return ElevatedButton(
+                          onPressed: () =>
+                              viewModel.toggleFilter(section['category'], option),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isSelected ? Colors.blue : Colors.grey[300],
+                            foregroundColor: isSelected ? Colors.white : Colors.black,
+                          ),
+                          child: Text(option),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      viewModel.resetFilters();
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                    child: Text("Reset"),
                   ),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: section['options'].map<Widget>((option) {
-                      final isSelected = viewModel.isFilterSelected(section['category'], option);
-
-                      Color backgroundColor;
-                      Color foregroundColor;
-
-                      if (isSelected) {
-                        backgroundColor = Colors.blue;
-                        foregroundColor = Colors.white;
-                      } else {
-                        backgroundColor = Colors.grey[300]!;
-                        foregroundColor = Colors.black;
-                      }
-
-                      return ElevatedButton(
-                        onPressed: () => viewModel.toggleFilter(section['category'], option),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: backgroundColor,
-                          foregroundColor: foregroundColor,
-                        ),
-                        child: Text(option),
-                      );
-                    }).toList(),
+                  ElevatedButton(
+                    onPressed: () {
+                      viewModel.applyFilters();
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                    child: Text("Apply"),
                   ),
                 ],
               ),
-            SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    viewModel.resetFilters();
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: Text("Reset"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    viewModel.applyFilters();
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                  child: Text("Apply"),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -94,12 +87,20 @@ class FilterView extends StatelessWidget {
     },
     {
       'title': "Carbohydrates Range",
-      'options': ["Low (10 grams or less)", "Medium (20 grams or less)", "High (30 grams or less) **Warning"],
+      'options': [
+        "Low (10 grams or less)",
+        "Medium (20 grams or less)",
+        "High (30 grams or less) **Warning"
+      ],
       'category': "carbs",
     },
     {
       'title': "Sugar Range",
-      'options': ["Low (5 grams or less)", "Medium (10 grams or less)", "High (15 grams or less) **Warning"],
+      'options': [
+        "Low (5 grams or less)",
+        "Medium (10 grams or less)",
+        "High (15 grams or less) **Warning"
+      ],
       'category': "sugar",
     },
     {
