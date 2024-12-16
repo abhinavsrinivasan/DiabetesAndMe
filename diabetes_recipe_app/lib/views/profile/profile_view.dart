@@ -40,20 +40,20 @@ class ProfileView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                onPressed: () => viewModel.setTabIndex(0),
+                onPressed: () => viewModel.settabNum(0),
                 child: Text("Health Info"),
               ),
               ElevatedButton(
-                onPressed: () => viewModel.setTabIndex(1),
+                onPressed: () => viewModel.settabNum(1),
                 child: Text("Favorites"),
               ),
               ElevatedButton(
-                onPressed: () => viewModel.setTabIndex(2),
+                onPressed: () => viewModel.settabNum(2),
                 child: Text("Reminders"),
               ),
             ],
           ),
-          Expanded(child: views[viewModel.currentTabIndex]),
+          Expanded(child: views[viewModel.currenttabNum]),
         ],
       ),
     );

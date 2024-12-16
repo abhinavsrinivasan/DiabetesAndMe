@@ -26,6 +26,7 @@ class ProfileHealthViewModel extends ChangeNotifier {
   int get carbGoal => _userModel.carbGoal;
   int get sugarGoal => _userModel.sugarGoal;
 
+    //initialize
   void _initializeControllers() {
     _userModel.healthInformation.forEach((key, value) {
       controllers[key] = TextEditingController(text: value);

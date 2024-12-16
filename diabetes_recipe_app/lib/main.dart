@@ -20,6 +20,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
+  //user data
   final UserModel userModel = UserModel(
     name: "John Doe",
     age: 30,
@@ -37,6 +39,8 @@ class MyApp extends StatelessWidget {
     remainingExercises: 2,
   );
 
+
+  //recipe data
   final List<Recipe> recipeList = [
     Recipe(
       title: "Feta Pasta",
@@ -124,6 +128,8 @@ class MyApp extends StatelessWidget {
     ),
   ];
 
+
+  //providers
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -148,6 +154,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => SocialMediaViewModel(
+            //social media data
             recipes: [
               {
                 "title": "Feta Pasta",

@@ -7,7 +7,7 @@ import '../../models/recipe_model.dart';
 class ProfileViewModel extends ChangeNotifier {
   final UserModel _userModel;
 
-  int tabIndex = 0;
+  int tabNum = 0;
 
   ProfileViewModel({required UserModel userModel}) : _userModel = userModel;
 
@@ -16,10 +16,10 @@ class ProfileViewModel extends ChangeNotifier {
   ImageProvider get profilePicture => _userModel.profilePicture;
   Map<String, String> get healthInformation => _userModel.healthInformation;
 
-  int get currentTabIndex => tabIndex;
+  int get currenttabNum => tabNum;
 
-  void setTabIndex(int index) {
-    tabIndex = index;
+  void settabNum(int index) {
+    tabNum = index;
     notifyListeners();
   }
 
