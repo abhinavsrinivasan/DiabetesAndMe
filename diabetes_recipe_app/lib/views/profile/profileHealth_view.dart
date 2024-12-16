@@ -130,10 +130,8 @@ class HealthInfoView extends StatelessWidget {
       context: parentContext,
       builder: (dialogContext) {
         return AlertDialog(
-          title: Text("Add $nutrient"),
           content: TextField(
             controller: controller,
-            decoration: InputDecoration(labelText: "$nutrient (grams)"),
             keyboardType: TextInputType.number,
           ),
           actions: [
