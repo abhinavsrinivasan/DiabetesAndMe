@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
     Recipe(
       title: "Feta Pasta",
       cuisine: "Italian",
-      cookTime: 25,
+      cookTime: 75,
       ingredients: ["Pasta", "Feta Cheese", "Tomatoes"],
       preparationSteps: [
         "Step 1: Boil pasta.",
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
     Recipe(
       title: "Chicken Salad",
       cuisine: "American",
-      cookTime: 15,
+      cookTime: 20,
       ingredients: ["Chicken", "Lettuce", "Dressing"],
       preparationSteps: [
         "Step 1: Grill chicken.",
@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
     Recipe(
       title: "Vegetable Stir Fry",
       cuisine: "Asian",
-      cookTime: 20,
+      cookTime: 61,
       ingredients: ["Broccoli", "Carrots", "Soy Sauce", "Garlic"],
       preparationSteps: [
         "Step 1: Heat oil in a pan.",
