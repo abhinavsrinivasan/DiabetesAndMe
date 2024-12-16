@@ -28,8 +28,8 @@ class FilterViewModel extends ChangeNotifier {
     List<int> maxCookTimes = [];
     List<int> maxCarbRanges = [];
     List<int> maxSugarRanges = [];
+    bool highCookTime = false;
 
-   //filter logic
     for (var filter in _selectedFilters) {
       if (filter.contains("cuisine:")) {
         selectedCuisines.add(filter.split(":")[1]);
@@ -37,6 +37,8 @@ class FilterViewModel extends ChangeNotifier {
         maxCookTimes.add(30);
       } else if (filter.contains("cookTime:Medium")) {
         maxCookTimes.add(60);
+      } else if (filter.contains("cookTime:High")) {
+        highCookTime = true; 
       } else if (filter.contains("carbs:Low")) {
         maxCarbRanges.add(10);
       } else if (filter.contains("carbs:Medium")) {
@@ -49,11 +51,16 @@ class FilterViewModel extends ChangeNotifier {
     }
 
     _model.filteredRecipes = _model.allRecipes.where((recipe) {
-      final matchesCuisine = selectedCuisines.isEmpty || selectedCuisines.contains(recipe.cuisine);
-      final matchesCookTime =
-          maxCookTimes.isEmpty || maxCookTimes.any((max) => recipe.cookTime <= max);
+      final matchesCuisine =
+          selectedCuisines.isEmpty || selectedCuisines.contains(recipe.cuisine);
+
+      final matchesCookTime = highCookTime
+          ? recipe.cookTime > 60 
+          : maxCookTimes.isEmpty || maxCookTimes.any((max) => recipe.cookTime <= max);
+
       final matchesCarbRange =
           maxCarbRanges.isEmpty || maxCarbRanges.any((max) => recipe.carbRange <= max);
+
       final matchesSugarRange =
           maxSugarRanges.isEmpty || maxSugarRanges.any((max) => recipe.sugarRange <= max);
 
