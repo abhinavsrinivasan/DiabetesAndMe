@@ -14,8 +14,8 @@ class FilterView extends StatelessWidget {
         elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView( // Added Scrollable Widget
+        padding: const EdgeInsets.all(16.0), //for scrolling in fitler view
+        child: SingleChildScrollView( 
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

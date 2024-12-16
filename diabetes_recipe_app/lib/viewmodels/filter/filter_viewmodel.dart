@@ -29,7 +29,7 @@ class FilterViewModel extends ChangeNotifier {
     List<int> maxCarbRanges = [];
     List<int> maxSugarRanges = [];
 
-    // Process selected filters
+   //filter logic
     for (var filter in _selectedFilters) {
       if (filter.contains("cuisine:")) {
         selectedCuisines.add(filter.split(":")[1]);

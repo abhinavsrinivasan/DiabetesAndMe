@@ -6,7 +6,7 @@ class ProfileHealthViewModel extends ChangeNotifier {
   final UserModel _userModel;
   bool _isEditing = false;
 
-  // Controllers for text fields
+    //controllers for different parameters
   final Map<String, TextEditingController> controllers = {};
   final TextEditingController carbGoalController = TextEditingController();
   final TextEditingController sugarGoalController = TextEditingController();
